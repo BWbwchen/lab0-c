@@ -65,15 +65,13 @@ bool q_insert_head(queue_t *q, char *s)
     newh->value[strlen(s)] = '\0';
 
     if (q->head == NULL) {
-        newh->next = NULL;
-        q->head = newh;
         q->tail = newh;
-        q->size = 1;
-    } else {
-        newh->next = q->head;
-        q->head = newh;
-        q->size++;
     }
+
+    newh->next = q->head;
+    q->head = newh;
+    q->size++;
+
 
     return true;
 }
