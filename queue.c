@@ -191,6 +191,59 @@ void q_reverse(queue_t *q)
     q->head = now;
 }
 
+list_ele_t *merge_list(list_ele_t *left, list_ele_t *right) {
+    // Merge
+    list_ele_t *start = NULL;
+    for (list_ele_t *merge = NULL; left || right;) {
+        if (!right || (left && strcmp(left->value, right->value) < 0)) {
+            if (!merge) {
+                start = merge = left;
+            } else {
+                merge->next = left;
+                merge = merge->next;
+            }
+            left = left->next;
+        } else {
+            if (!merge) {
+                start = merge = right;
+            } else {
+                merge->next = right;
+                merge = merge->next;
+            }
+            right = right->next;
+        }
+    }
+    return start;
+}
+
+list_ele_t *get_mid(list_ele_t *start)
+{
+    if (start == NULL)
+        return start;
+
+    list_ele_t *slow = start,
+               *fast = start;
+
+    while (fast->next != NULL && fast->next->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+list_ele_t *merge_sort(list_ele_t *start)
+{
+    if (start == NULL || start->next == NULL)
+        return start;
+
+    list_ele_t *mid;
+    mid = get_mid(start);
+    list_ele_t *right = mid->next;
+    mid->next = NULL;
+    
+    return merge_list(merge_sort(start), merge_sort(right));
+}
+
 /*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
@@ -198,6 +251,8 @@ void q_reverse(queue_t *q)
  */
 void q_sort(queue_t *q)
 {
-    /* TODO: You need to write the code for this function */
-    /* TODO: Remove the above comment when you are about to implement. */
+    if (q == NULL || q->head == NULL || q->head->next == NULL)
+        return;
+
+    q->head = merge_sort(q->head);
 }
