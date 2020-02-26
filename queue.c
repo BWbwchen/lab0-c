@@ -20,7 +20,6 @@ queue_t *q_new()
     q->head = NULL;
     q->tail = NULL;
     q->size = 0;
-    q->head = NULL;
     return q;
 }
 
@@ -191,7 +190,8 @@ void q_reverse(queue_t *q)
     q->head = now;
 }
 
-list_ele_t *merge_list(list_ele_t *left, list_ele_t *right) {
+list_ele_t *merge_list(list_ele_t *left, list_ele_t *right)
+{
     // Merge
     list_ele_t *start = NULL;
     for (list_ele_t *merge = NULL; left || right;) {
@@ -221,8 +221,7 @@ list_ele_t *get_mid(list_ele_t *start)
     if (start == NULL)
         return start;
 
-    list_ele_t *slow = start,
-               *fast = start;
+    list_ele_t *slow = start, *fast = start;
 
     while (fast->next != NULL && fast->next->next != NULL) {
         slow = slow->next;
@@ -240,7 +239,7 @@ list_ele_t *merge_sort(list_ele_t *start)
     mid = get_mid(start);
     list_ele_t *right = mid->next;
     mid->next = NULL;
-    
+
     return merge_list(merge_sort(start), merge_sort(right));
 }
 
